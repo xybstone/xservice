@@ -16,6 +16,11 @@ var (
 	ExposeHeaders        = "AccessToken, RefreshToken"
 )
 
+func init() {
+	Dct.SetVerifyList("/status")
+	Dct.SetVerifyList("/cors")
+}
+
 var (
 	OPTIONS = []byte("OPTIONS")
 )
@@ -36,9 +41,6 @@ func (d Decorator) GetVerifyList() map[string]bool {
 func (d Decorator) SetVerifyList(key string) {
 	if verifyList == nil {
 		verifyList = make(map[string]bool)
-		verifyList["/"] = true
-		verifyList["/status"] = true
-		verifyList["/cors"] = true
 	}
 
 	verifyList[key] = true
