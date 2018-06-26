@@ -22,11 +22,9 @@ var (
 
 //Decorator 控制拦截
 type Decorator struct {
-	RunFuc   func(ctx *routing.Context) error
-	PathStr  string
-	BeforFuc func(ctx *routing.Context) error
-	EndFuc   func(ctx *routing.Context) error
-	Logger   func(title string, msg map[string]interface{})
+	RunFuc  func(ctx *routing.Context) error
+	PathStr string
+	Logger  func(title string, msg map[string]interface{})
 }
 
 var verifyList map[string]bool
@@ -82,8 +80,6 @@ func (d Decorator) Decorator(ctx *routing.Context) (err error) {
 		return
 	}
 
-	d.BeforFuc(ctx)
 	d.RunFuc(ctx)
-	d.EndFuc(ctx)
 	return
 }
