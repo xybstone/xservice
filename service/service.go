@@ -4,9 +4,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/xybstone/fasthttp-routing"
-
 	"github.com/valyala/fasthttp"
+	"github.com/xybstone/fasthttp-routing"
 )
 
 var (
@@ -34,6 +33,9 @@ var (
 	WriteBufferSize = 16 * 1024
 )
 
+// Logger 日志插件
+var XLogger fasthttp.Logger
+
 func GetRoute() *routing.Router {
 	router := routing.New()
 	RegsitRouter(router, new(BaseServer))
@@ -56,16 +58,18 @@ func GetServer() *fasthttp.Server {
 			MaxRequestBodySize:   MaxRequestBodySize,
 			ReadBufferSize:       ReadBufferSize,
 			WriteBufferSize:      WriteBufferSize,
+			Logger:               XLogger,
+			LogAllErrors:         true,
 		}
 	}
 	return nil
 }
 
+// Run 启动服务
 func Run(n net.Listener) {
 	s := GetServer()
 	if s != nil {
 		s.Serve(n)
 	}
 
-	panic("server is nil")
 }

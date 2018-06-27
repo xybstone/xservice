@@ -76,6 +76,12 @@ func (bs *BaseServer) GetStatus(ctx *routing.Context) (err error) {
 
 var routes map[string]Route
 
+// BindRote 注册绑定路由
+func BindRote(path string, methods []string, handle func(*routing.Context) error) {
+	AddRote(path, Route{method: methods, handle: handle})
+}
+
+// AddRote 添加路由
 func AddRote(path string, r Route) {
 	if routes == nil {
 		routes = make(map[string]Route)
