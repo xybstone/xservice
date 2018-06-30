@@ -14,21 +14,19 @@ import (
 )
 
 //Convey 执行
-func Convey(info string, f func(), at func() bool) {
+func Convey(info string, f func() bool) {
 	fmt.Println("Test:", info)
-	f()
-	if at != nil {
-		if !at() {
-			panic("fail")
-		}
+	if !f() {
+		panic("fail")
 	}
 }
 
 //SkipConvey 跳过测试
-func SkipConvey(info string, f func(), at func() bool) {
+func SkipConvey(info string, at func() bool) {
 	fmt.Println("Skip Test:", info)
 }
 
+// StartServerOnPort 开始测试
 func StartServerOnPort(t *testing.T, port int, h fasthttp.RequestHandler) io.Closer {
 	ln, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
@@ -38,6 +36,15 @@ func StartServerOnPort(t *testing.T, port int, h fasthttp.RequestHandler) io.Clo
 	return ln
 }
 
+var header http.Header
+var Header = func() http.Header {
+	if header == nil {
+		header = make(map[string][]string)
+	}
+	return header
+}()
+
+//DoHTTPTestURI http
 func DoHTTPTestURI(method string, port int, api string, params map[string]string) []byte {
 	if strings.HasPrefix(api, "/") {
 		api = strings.TrimPrefix(api, "/")
@@ -62,6 +69,18 @@ func DoHTTPTestURI(method string, port int, api string, params map[string]string
 	if err != nil {
 		panic(err)
 	}
+
+	for k, v := range Header {
+		for _, vv := range v {
+			if _, has := req.Header[k]; has {
+				req.Header.Set(k, vv)
+
+			} else {
+				req.Header.Add(k, vv)
+			}
+		}
+	}
+
 	resp, err := http.DefaultClient.Do(req)
 
 	if err != nil {
@@ -69,8 +88,6 @@ func DoHTTPTestURI(method string, port int, api string, params map[string]string
 	}
 
 	body, _ := ioutil.ReadAll(resp.Body)
-
 	fmt.Println(string(body))
-
 	return body
 }
