@@ -14,15 +14,15 @@ import (
 )
 
 //Convey 执行
-func Convey(info string, f func() bool) {
+func Convey(info string, t *testing.T, f func() bool) {
 	fmt.Println("Test:", info)
 	if !f() {
-		panic("fail")
+		t.Fatalf("fail:%s", info)
 	}
 }
 
 //SkipConvey 跳过测试
-func SkipConvey(info string, at func() bool) {
+func SkipConvey(info string, t *testing.T, f func() bool) {
 	fmt.Println("Skip Test:", info)
 }
 

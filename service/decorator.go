@@ -2,6 +2,7 @@ package service
 
 import (
 	"bytes"
+	"fmt"
 	"runtime/debug"
 	"strings"
 
@@ -29,7 +30,6 @@ var (
 type Decorator struct {
 	RunFuc  func(ctx *routing.Context) error
 	PathStr string
-	Logger  func(title string, msg map[string]interface{})
 }
 
 var verifyList map[string]bool
@@ -70,7 +70,8 @@ func (d Decorator) SetCorsHeader(ctx *routing.Context) {
 
 func (d Decorator) recovery() {
 	if r := recover(); r != nil {
-		d.Logger("panic", map[string]interface{}{"recover": r, "stack": string(debug.Stack())})
+		fmt.Println("XLogger:", XLogger)
+		XLogger.Printf("panic:%v", map[string]interface{}{"recover": r, "stack": string(debug.Stack())})
 	}
 }
 
