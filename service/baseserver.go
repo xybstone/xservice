@@ -93,9 +93,9 @@ func AddRote(path string, r Route) {
 func (bs *BaseServer) ServerJSON(ctx *routing.Context, v interface{}, status int) {
 	if b, err := json.Marshal(v); err == nil {
 		if status == 0 {
-			bs.Logger("ServerJSON", map[string]interface{}{"Respose OK": string(b)})
+			XLogger.Printf("ServerJSON:%v", map[string]interface{}{"Respose OK": string(b)})
 		} else {
-			bs.Logger("ServerJSON ERR", map[string]interface{}{"Respose ERR": string(b)})
+			XLogger.Printf("ServerJSON ERR:%v", map[string]interface{}{"Respose ERR": string(b)})
 		}
 		ctx.Write(b)
 	}
