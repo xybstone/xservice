@@ -20,6 +20,7 @@ var (
 func init() {
 	Dct.SetVerifyList("/status")
 	Dct.SetVerifyList("/cors")
+	Dct.SetVerifyList("/")
 }
 
 var (
