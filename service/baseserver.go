@@ -40,7 +40,7 @@ func (bs *BaseServer) Cors(ctx *routing.Context) (err error) {
 
 //HandleRoot 测试页
 func (bs *BaseServer) HandleRoot(ctx *routing.Context) (err error) {
-	v := fmt.Sprintf("{\"version\":%s}", ServiceVersion)
+	v := fmt.Sprintf("{\"version\":\"%s\"}", ServiceVersion)
 	ctx.Write([]byte(v))
 	return
 }
