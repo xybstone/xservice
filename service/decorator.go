@@ -13,7 +13,7 @@ var (
 	CorsAllowOrigin      = []string{"gaodun.com"}
 	CorsAllowMethods     = "HEAD,GET,POST,PUT,DELETE"
 	CorsAllowCredentials = "true"
-	CorsAllowHead        = "Origin, X-Requested-With, Content-Type, Accept, Authtoken, Authentication, X_Requested_With"
+	CorsAllowHead        = "Origin, X-Requested-With, Content-Type, Accept, Authtoken, Authentication, X_Requested_With, X-Request-ID"
 	ExposeHeaders        = "AccessToken, RefreshToken"
 )
 
@@ -60,6 +60,11 @@ func (d Decorator) SetCorsHeader(ctx *routing.Context) {
 			ctx.Response.Header.Set("Access-Control-Allow-Origin", origin)
 			ctx.Response.Header.Set("Access-Control-Allow-Headers", CorsAllowHead)
 			ctx.Response.Header.Set("Access-Control-Expose-Headers", ExposeHeaders)
+			reqID := string(ctx.Request.Header.Peek("X-Request-ID"))
+			if reqID == "" {
+				reqID = GetUID()
+				ctx.Request.Header.Set("X-Request-ID", reqID)
+			}
 			allow = true
 			break
 		}

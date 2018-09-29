@@ -69,7 +69,9 @@ func GetServer() *fasthttp.Server {
 func Run(n net.Listener) {
 	s := GetServer()
 	if s != nil {
+		NewUniqueIDAsync()
 		s.Serve(n)
 	}
 
 }
+
