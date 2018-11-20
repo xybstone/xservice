@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/valyala/fasthttp"
+	"bytes"
 )
 
 //Convey 执行
@@ -90,4 +91,45 @@ func DoHTTPTestURI(method string, port int, api string, params map[string]string
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(body))
 	return body
+}
+
+//DoHTTPTestBody body
+func DoHTTPTestBody(method string, port int, api string, body []byte) []byte {
+	if strings.HasPrefix(api, "/") {
+		api = strings.TrimPrefix(api, "/")
+	}
+
+	var req *http.Request
+	var err error
+	var host string
+	if !strings.HasPrefix("http", api) {
+		host = fmt.Sprintf("http://localhost:%d", port)
+	}
+
+	req, err = http.NewRequest(method, fmt.Sprintf("%s/%s", host, api), bytes.NewReader(body))
+
+	if err != nil {
+		panic(err)
+	}
+
+	for k, v := range Header {
+		for _, vv := range v {
+			if _, has := req.Header[k]; has {
+				req.Header.Set(k, vv)
+
+			} else {
+				req.Header.Add(k, vv)
+			}
+		}
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		panic(err)
+	}
+
+	outBody, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(outBody))
+	return outBody
 }
