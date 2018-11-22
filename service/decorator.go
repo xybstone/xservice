@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	CorsAllowOrigin      = []string{"gaodun.com"}
+	CorsAllowOrigin      = []string{"gaodun.com","gaodunwangxiao.com"}
 	CorsAllowMethods     = "HEAD,GET,POST,PUT,DELETE"
 	CorsAllowCredentials = "true"
 	CorsAllowHead        = "Origin, X-Requested-With, Content-Type, Accept, Authtoken, Authentication, X_Requested_With, X-Request-ID"
@@ -85,10 +85,13 @@ func (d Decorator) Decorator(ctx *routing.Context) (err error) {
 	defer d.recovery()
 	d.SetCorsHeader(ctx)
 
+	fmt.Println("im here1")
+
 	if bytes.Compare(OPTIONS, ctx.Method()) == 0 {
 		return
 	}
 
-	d.RunFuc(ctx)
-	return
+	fmt.Println("im here")
+
+	return d.RunFuc(ctx)
 }
