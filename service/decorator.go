@@ -85,13 +85,9 @@ func (d Decorator) Decorator(ctx *routing.Context) (err error) {
 	defer d.recovery()
 	d.SetCorsHeader(ctx)
 
-	fmt.Println("im here1")
-
 	if bytes.Compare(OPTIONS, ctx.Method()) == 0 {
 		return
 	}
-
-	fmt.Println("im here")
 
 	return d.RunFuc(ctx)
 }
