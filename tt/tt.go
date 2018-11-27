@@ -12,7 +12,12 @@ import (
 
 	"github.com/valyala/fasthttp"
 	"bytes"
+	"github.com/xybstone/xservice/service"
 )
+
+func init() {
+	service.NewUniqueIDAsync()
+}
 
 //Convey 执行
 func Convey(info string, t *testing.T, f func() bool) {
