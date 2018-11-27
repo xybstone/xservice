@@ -47,6 +47,7 @@ func (bs *BaseServer) HandleRoot(ctx *routing.Context) (err error) {
 
 //GetStatus 状态页
 func (bs *BaseServer) GetStatus(ctx *routing.Context) (err error) {
+	fmt.Println("1")
 	dir, _ := os.Getwd()
 	fileOperate := filetool.FileOperate{Filename: dir + string(os.PathSeparator) + "DEPLOY"}
 	if fileOperate.CheckFileExist(fileOperate.Filename) {

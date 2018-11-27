@@ -84,10 +84,8 @@ func (d Decorator) recovery() {
 func (d Decorator) Decorator(ctx *routing.Context) (err error) {
 	defer d.recovery()
 	d.SetCorsHeader(ctx)
-
 	if bytes.Compare(OPTIONS, ctx.Method()) == 0 {
 		return
 	}
-
 	return d.RunFuc(ctx)
 }

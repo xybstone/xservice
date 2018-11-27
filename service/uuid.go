@@ -18,7 +18,7 @@ func NewUniqueIDAsync() {
 }
 
 // return unique id
-func GetUID() string {
+func   GetUID() string {
 	select {
 	case uID, okay := <-uniqueID:
 		if okay {
