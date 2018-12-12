@@ -38,7 +38,10 @@ var XLogger fasthttp.Logger
 
 func GetRoute() *routing.Router {
 	router := routing.New()
+	// 原有方式注册
 	RegsitRouter(router, new(BaseServer))
+	// 扩展方式注册
+	RegisterGroup(router, new(BaseGroup))
 	return router
 }
 
@@ -72,6 +75,5 @@ func Run(n net.Listener) {
 		NewUniqueIDAsync()
 		s.Serve(n)
 	}
-
 }
 
