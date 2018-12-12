@@ -98,6 +98,7 @@ func (bs *BaseServer) ServerJSON(ctx *routing.Context, v interface{}, status int
 		} else {
 			XLogger.Printf("ServerJSON ERR:%v", map[string]interface{}{"Respose ERR": string(b), "PATH:": string(ctx.Path())})
 		}
+		ctx.SetContentType("application/json")
 		ctx.Write(b)
 	}
 }
