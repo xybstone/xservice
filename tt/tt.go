@@ -1,6 +1,7 @@
 package tt
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -11,7 +12,6 @@ import (
 	"testing"
 
 	"github.com/valyala/fasthttp"
-	"bytes"
 	"github.com/xybstone/xservice/service"
 )
 
